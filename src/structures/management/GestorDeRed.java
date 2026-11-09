@@ -135,19 +135,29 @@ public class GestorDeRed {
         // TODO 6: Implementar la conexión bidireccional entre dos sensores.
         // Debe agregar sensorB a la lista de vecinos de sensorA, y viceversa.
         // Asegurar que no se creen conexiones duplicadas.
+        List<String> vecinosA = topologiaRed.computeIfAbsent(sensorA, k -> new ArrayList<>());
+        List<String> vecinosB = topologiaRed.computeIfAbsent(sensorB, k -> new ArrayList<>());
+        if (!vecinosA.contains(sensorB)) vecinosA.add(sensorB);
+        if (!vecinosB.contains(sensorA)) vecinosB.add(sensorA);
     }
 
     public List<String> obtenerVecinos(String idSensor) {
         // TODO 7: Implementar la consulta de conexiones.
         // Debe devolver la lista de sensores conectados al idSensor proporcionado.
         // Retornar una lista vacía si el sensor no tiene conexiones.
-        return null;
+        return new ArrayList<>(topologiaRed.getOrDefault(idSensor, Collections.emptyList()));
     }
 
     public List<String> detectarEstacionesAisladas() {
         // TODO 9: Implementar la detección de nodos huérfanos.
         // Debe retornar una lista de todos los sensores registrados que no tienen ninguna conexión.
-        return null;
+        List<String> aisladas = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entrada : topologiaRed.entrySet()) {
+            if (entrada.getValue().isEmpty()) {
+                aisladas.add(entrada.getKey());
+            }
+        }
+        return aisladas;
     }
 
     // =========================================================================
