@@ -78,14 +78,27 @@ public class GestorDeRed {
         // TODO 2: Implementar la lógica de desplazamiento hacia adelante.
         // Debe devolver la siguiente alerta o null si no hay más.
         // Recuerda actualizar el estado de 'alertaActual'.
+        String siguiente = navegadorAlertas.pollFirst();
+        if (siguiente == null) {
         return null;
+        }
+        navegadorAlertas.addLast(siguiente);
+        alertaActual = siguiente;
+        return siguiente;
+
     }
 
     public String navegarAlAnterior() {
         // TODO 3: Implementar la lógica de desplazamiento hacia atrás.
         // Debe devolver la alerta anterior o null si es la primera.
         // Recuerda actualizar el estado de 'alertaActual'.
+        String actual = navegadorAlertas.pollLast();
+        if (actual == null) {
         return null;
+        }
+        navegadorAlertas.addFirst(actual);
+        alertaActual = navegadorAlertas.peekLast();
+        return alertaActual;
     }
 
     public String getAlertaActual() { return alertaActual; }
